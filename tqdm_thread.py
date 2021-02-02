@@ -24,7 +24,7 @@ class _TQDM(Thread):
 
 
 class tqdm_thread(object):
-  def __init__(self, sleep=.1,
+  def __init__(self, sleep=0.1,
       desc='tqdm thread',
       bar_format='{desc} {elapsed}',
       **kwargs):
