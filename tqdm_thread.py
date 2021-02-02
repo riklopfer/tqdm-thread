@@ -28,7 +28,7 @@ class tqdm_thread(object):
     self._thread = _TQDM(*args, **kwargs)
 
   def __enter__(self):
-    self._thread.run()
+    self._thread.start()
 
   def __exit__(self, exc_type, exc_val, exc_tb):
     self._thread.stop()
