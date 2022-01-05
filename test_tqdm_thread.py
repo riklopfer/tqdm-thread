@@ -16,7 +16,13 @@ def test_no_desc():
         time.sleep(0.01)
 
 
-def test_long():
+def test_longer():
     with tqdm_thread(desc="sleepy ..."):
         print("I'm slow(ish)")
         time.sleep(3)
+
+
+def test_longest():
+    with tqdm_thread(desc="super sleepy ..."):
+        print("I'm slooowwwww")
+        time.sleep(30)

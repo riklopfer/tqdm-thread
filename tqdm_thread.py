@@ -7,26 +7,31 @@ class _TQDM(Thread):
     def __init__(self, sleep, **kwargs):
         super(_TQDM, self).__init__()
         self.sleep = sleep
-        self._is_dead = Event()
-        self._tqdm_kwargs = kwargs
-        
+        self._is_done = Event()
+
         # override default bar_format
-        if 'bar_format' not in self._tqdm_kwargs:
-            self._tqdm_kwargs = {
+        if 'bar_format' not in kwargs:
+            kwargs = {
                 'bar_format': '{desc} {elapsed}',
                 **kwargs
             }
 
+        self._kwargs = kwargs
+
     def _generator(self):
-        while not self._is_dead.is_set():
+        while not self._is_done.is_set():
             yield None
 
+    @property
+    def _tqdm(self):
+        return tqdm(self._generator(), **self._kwargs)
+
     def run(self) -> None:
-        for _ in tqdm(self._generator(), **self._tqdm_kwargs):
-            self._is_dead.wait(self.sleep)
+        for _ in self._tqdm:
+            self._is_done.wait(self.sleep)
 
     def stop(self):
-        self._is_dead.set()
+        self._is_done.set()
 
 
 class tqdm_thread(object):
