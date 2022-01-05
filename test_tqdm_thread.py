@@ -11,6 +11,11 @@ def test_short():
         time.sleep(0.01)
 
 
+def test_no_desc():
+    with tqdm_thread():
+        time.sleep(0.01)
+
+
 def test_long():
     with tqdm_thread(desc="sleepy ..."):
         print("I'm slow(ish)")

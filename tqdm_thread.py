@@ -24,14 +24,13 @@ class _TQDM(Thread):
 
 class tqdm_thread(object):
     def __init__(self, sleep=0.1,
-                 desc='tqdm thread',
                  bar_format='{desc} {elapsed}',
                  **kwargs):
         """
-        :param sleep: the amount of time to sleep between tqdm iterations
-        :param kwargs: kwargs passed along to tqdm constructor
+        :param sleep: number of seconds to sleep between tqdm iterations
+        :param kwargs: kwargs passed along to tqdm
         """
-        self._thread = _TQDM(sleep, desc=desc, bar_format=bar_format, **kwargs)
+        self._thread = _TQDM(sleep, bar_format=bar_format, **kwargs)
 
     def __enter__(self):
         self._thread.start()
