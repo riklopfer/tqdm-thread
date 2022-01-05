@@ -9,6 +9,13 @@ class _TQDM(Thread):
         self.sleep = sleep
         self._is_dead = Event()
         self._tqdm_kwargs = kwargs
+        
+        # override default bar_format
+        if 'bar_format' not in self._tqdm_kwargs:
+            self._tqdm_kwargs = {
+                'bar_format': '{desc} {elapsed}',
+                **kwargs
+            }
 
     def _generator(self):
         while not self._is_dead.is_set():
@@ -23,14 +30,12 @@ class _TQDM(Thread):
 
 
 class tqdm_thread(object):
-    def __init__(self, sleep=0.1,
-                 bar_format='{desc} {elapsed}',
-                 **kwargs):
+    def __init__(self, sleep=0.1, **kwargs):
         """
         :param sleep: number of seconds to sleep between tqdm iterations
         :param kwargs: kwargs passed along to tqdm
         """
-        self._thread = _TQDM(sleep, bar_format=bar_format, **kwargs)
+        self._thread = _TQDM(sleep, **kwargs)
 
     def __enter__(self):
         self._thread.start()
