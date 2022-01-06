@@ -9,14 +9,14 @@ class _TQDM(Thread):
         self.sleep = sleep
         self._is_done = Event()
 
-        # override default bar_format
-        if 'bar_format' not in kwargs:
-            kwargs = {
-                'bar_format': '{desc} {elapsed}',
-                **kwargs
-            }
+        # special defaults
+        default_kwargs = {
+            'bar_format': '{desc} {elapsed}',
+        }
 
-        self._kwargs = kwargs
+        default_kwargs.update(kwargs)
+
+        self._kwargs = default_kwargs
 
     def _generator(self):
         while not self._is_done.is_set():
