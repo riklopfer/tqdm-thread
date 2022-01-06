@@ -10,37 +10,47 @@ class _TQDM(Thread):
         self._is_done = Event()
 
         # special defaults
-        default_kwargs = {
-            'bar_format': '{desc} {elapsed}',
-        }
+        default_kwargs = {}
+        if 'total' in kwargs:
+            default_kwargs['bar_format'] = '{desc} {bar} {elapsed}'
+        else:
+            default_kwargs['bar_format'] = '{desc} {elapsed}'
 
         default_kwargs.update(kwargs)
 
         self._kwargs = default_kwargs
 
     def _generator(self):
-        while not self._is_done.is_set():
-            yield None
+        steps_per_bar = self._kwargs.get('total', 0)
+        if steps_per_bar:
+            for _ in range(steps_per_bar):
+                if self._is_done.is_set():
+                    return
+                yield None
+        else:
+            while not self._is_done.is_set():
+                yield None
 
     @property
     def _tqdm(self):
         return tqdm(self._generator(), **self._kwargs)
 
     def run(self) -> None:
-        for _ in self._tqdm:
-            self._is_done.wait(self.sleep)
+        while not self._is_done.is_set():
+            for _ in self._tqdm:
+                self._is_done.wait(self.sleep)
 
     def stop(self):
         self._is_done.set()
 
 
 class tqdm_thread(object):
-    def __init__(self, sleep=0.1, **kwargs):
+    def __init__(self, step_sec=1, **kwargs):
         """
-        :param sleep: number of seconds to sleep between tqdm iterations
+        :param step_sec: number of seconds to sleep between steps
         :param kwargs: kwargs passed along to tqdm
         """
-        self._thread = _TQDM(sleep, **kwargs)
+        self._thread = _TQDM(step_sec, **kwargs)
 
     def __enter__(self):
         self._thread.start()
