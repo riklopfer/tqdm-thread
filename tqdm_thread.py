@@ -31,13 +31,12 @@ class _TQDM(Thread):
             while not self._is_done.is_set():
                 yield None
 
-    @property
-    def _tqdm(self):
+    def _new_tqdm(self):
         return tqdm(self._generator(), **self._kwargs)
 
     def run(self) -> None:
         while not self._is_done.is_set():
-            for _ in self._tqdm:
+            for _ in self._new_tqdm():
                 self._is_done.wait(self.sleep)
 
     def stop(self):
