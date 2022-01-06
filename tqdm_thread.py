@@ -1,4 +1,8 @@
+import argparse
+import subprocess
+import sys
 from threading import Thread, Event
+from typing import List
 
 from tqdm import tqdm
 
@@ -56,3 +60,24 @@ class tqdm_thread(object):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self._thread.stop()
+
+
+def _exec_cmd(command_args: List[str], total: int, step_sec: int):
+    assert cmd
+    assert total >= 0
+    assert step_sec > 0.1
+
+    with tqdm_thread(step_sec=step_sec, total=total, desc=command_args[0]):
+        try:
+            subprocess.check_call(command_args)
+        except Exception:
+            return 1
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--tqdm_total', help='', type=int, default=0)
+    parser.add_argument('--tqdm_step_sec', help='', type=int, default=1)
+    args, cmd = parser.parse_known_args()
+
+    sys.exit(_exec_cmd(cmd, args.tqdm_total, args.tqdm_step_sec))
