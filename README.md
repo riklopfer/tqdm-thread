@@ -14,15 +14,15 @@ import time
 from tqdm_thread import tqdm_thread
 
 with tqdm_thread(desc="doing serious work"):
-    # do something that takes a long time
+    # no total; no pogress bar; just a counter
     time.sleep(10)
 
-with tqdm_thread(desc="doing serious work", total=20):
-    # do something that takes a long time
+with tqdm_thread(desc="doing serious work", total=10):
+    # adding 'total' means that you will get a bar
     time.sleep(10)
 
-with tqdm_thread(desc="doing serious work", total=10, step_sec=1):
-    # do something that takes a long time
+with tqdm_thread(desc="doing serious work", total=5):
+    # here, two progress bars will be created
     time.sleep(10)
 
 
