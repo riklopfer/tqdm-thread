@@ -1,3 +1,4 @@
+import time
 from threading import Thread, Event
 
 from tqdm import tqdm
@@ -41,6 +42,8 @@ class _TQDM(Thread):
 
     def stop(self):
         self._is_done.set()
+        # time.sleep(self._kwargs.get('mininterval', 0.1))
+        time.sleep(0.1)
 
 
 class tqdm_thread(object):
