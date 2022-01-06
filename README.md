@@ -3,7 +3,7 @@ tqdm-thread
 [![Python application](https://github.com/riklopfer/tqdm-thread/actions/workflows/python-app.yml/badge.svg)](https://github.com/riklopfer/tqdm-thread/actions/workflows/python-app.yml)
 
 When you want to show that something is working, but don't have an iterable. For example, if you're loading a large
-Pickle file and want to show progress. All kwargs work as expected with tqdm with a couple exceptions:
+Pickle file and want to show progress. All kwargs work as expected with [tqdm](https://tqdm.github.io/docs/tqdm/#__init__) with a couple exceptions:
 
 1. `step_sec` -- this is new. how many seconds to sleep between steps. default: `1.0`
 1. `total` -- since we don't actually know the total, this create a new progress bar every `total` steps. default: `None`
