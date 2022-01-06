@@ -6,23 +6,23 @@ from tqdm_thread import tqdm_thread
 
 
 def test_short():
+    print("I'm fast")
     with tqdm_thread(desc="speedy ..."):
-        print("I'm fast")
         time.sleep(0.01)
 
 
 def test_no_desc():
     with tqdm_thread():
-        time.sleep(0.01)
+        time.sleep(1)
 
 
 def test_longer():
+    print("I'm slow(ish)")
     with tqdm_thread(desc="sleepy ..."):
-        print("I'm slow(ish)")
         time.sleep(3)
 
 
 def test_longest():
-    with tqdm_thread(desc="super sleepy ..."):
-        print("I'm slooowwwww")
+    print("I'm slooowwwww")
+    with tqdm_thread(desc="super sleepy ...", total=10):
         time.sleep(30)
