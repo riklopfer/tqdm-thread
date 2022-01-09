@@ -1,6 +1,6 @@
 tqdm-thread
 ===========
-[![Python application](https://github.com/riklopfer/tqdm-thread/actions/workflows/python-app.yml/badge.svg)](https://github.com/riklopfer/tqdm-thread/actions/workflows/python-app.yml)
+[![Python application](https://github.com/riklopfer/tqdm-thread/actions/workflows/python-app.yml/badge.svg)](https://github.com/riklopfer/tqdm-thread/actions/workflows/python-app.yml) [![Upload Python Package](https://github.com/riklopfer/tqdm-thread/actions/workflows/python-publish.yml/badge.svg)](https://github.com/riklopfer/tqdm-thread/actions/workflows/python-publish.yml)
 
 When you want to show that something is working, but don't have an iterable. For example, if you're loading a large
 Pickle file and want to show progress. All kwargs work as expected with [tqdm](https://tqdm.github.io/docs/tqdm/#__init__) with a couple exceptions:
